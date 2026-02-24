@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudo Estratégico - Edital Inteligente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --primary: #4f46e5;
+            --bg-edit: #f0f4ff;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        .premium-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f1f5f9;
+        }
+
+        .input-editable {
+            background-color: var(--bg-edit);
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .input-editable:focus {
+            border-color: var(--primary);
+            outline: none;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        .btn-nav {
+            padding: 10px 18px;
+            border-radius: 14px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #64748b;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .btn-nav.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.2);
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.875rem;
+        }
+
+        .priority-high { background-color: #fee2e2; color: #991b1b; }
+        .priority-medium { background-color: #fef3c7; color: #92400e; }
+        .priority-low { background-color: #d1fae5; color: #065f46; }
+
+        .scroll-custom::-webkit-scrollbar { width: 5px; height: 5px; }
+        .scroll-custom::-webkit-scrollbar-track { background: #f1f1f1; }
+        .scroll-custom::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        .emergency-active {
+            animation: pulse-red 2s infinite;
+            border: 2px solid #ef4444 !important;
+        }
+
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        
+        <!-- HEADER -->
+        <header class="mb-10 text-center lg:text-left flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div>
+                <p class="text-indigo-600 font-bold text-xs uppercase tracking-widest mb-1">Estratégia & Alta Performance</p>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Sistema <span class="text-indigo-600">Edital Inteligente</span></h1>
+                <p class="text-slate-500 text-sm mt-1 max-w-lg">Sua aprovação começa com um edital bem organizado. Importe seus conteúdos e estude com foco.</p>
+            </div>
+            
+            <nav class="flex bg-white p-1.5 rounded-2xl shadow-sm border border-slate-200 overflow-x-auto gap-1 scroll-custom">
+                <button onclick="switchTab('start')" class="btn-nav active" id="btn-start">COMECE AQUI</button>
+                <button onclick="switchTab('import')" class="btn-nav" id="btn-import">1. IMPORTAR EDITAL</button>
+                <button onclick="switchTab('config')" class="btn-nav" id="btn-config">2. CONFIGURAÇÃO</button>
+                <button onclick="switchTab('prioridade')" class="btn-nav" id="btn-prioridade">3. O QUE MAIS CAI</button>
+                <button onclick="switchTab('cronograma')" class="btn-nav" id="btn-cronograma">MEU PLANO DIÁRIO</button>
+                <button onclick="switchTab('emergencia')" class="btn-nav text-rose-600" id="btn-emergencia">🚨 PLANO 7 DIAS</button>
+                <button onclick="switchTab('dashboard')" class="btn-nav" id="btn-dashboard">DASHBOARD</button>
+            </nav>
+        </header>
+
+        <!-- ABA 0: COMECE AQUI -->
+        <div id="tab-start" class="tab-content active animate-in fade-in duration-500">
+            <div class="premium-card p-10 bg-gradient-to-br from-indigo-600 to-indigo-800 text-white mb-8">
+                <h2 class="text-2xl font-black mb-4">Seu Edital Organizado em Minutos 🚀</h2>
+                <p class="opacity-90 max-w-2xl leading-relaxed">O sistema organiza automaticamente os tópicos, matérias e prioridades. Se faltar pouco tempo, usa o **Plano Intensivo 7 Dias**.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="premium-card p-6 border-t-4 border-indigo-500">
+                    <div class="step-number mb-4">1</div>
+                    <h3 class="font-bold text-slate-800 mb-2">Importe o Edital</h3>
+                    <p class="text-xs text-slate-500 leading-relaxed mb-4">Cole o texto do edital ou adicione os tópicos manualmente na aba **Importar Edital**.</p>
+                    <button onclick="switchTab('import')" class="text-xs font-bold text-indigo-600 hover:underline">Ir para Importação →</button>
+                </div>
+                <div class="premium-card p-6 border-t-4 border-indigo-500">
+                    <div class="step-number mb-4">2</div>
+                    <h3 class="font-bold text-slate-800 mb-2">Configure o Tempo</h3>
+                    <p class="text-xs text-slate-500 leading-relaxed mb-4">Defina as datas da prova e sua carga horária diária.</p>
+                    <button onclick="switchTab('config')" class="text-xs font-bold text-indigo-600 hover:underline">Configurar Tempo →</button>
+                </div>
+                <div class="premium-card p-6 border-t-4 border-indigo-500">
+                    <div class="step-number mb-4">3</div>
+                    <h3 class="font-bold text-slate-800 mb-2">Plano de Tópicos</h3>
+                    <p class="text-xs text-slate-500 leading-relaxed mb-4">O sistema distribui não só a matéria, mas cada tópico específico por dia.</p>
+                    <button onclick="switchTab('cronograma')" class="text-xs font-bold text-indigo-600 hover:underline">Ver Tópico do Dia →</button>
+                </div>
+                <div class="premium-card p-6 border-t-4 border-rose-500">
+                    <div class="step-number mb-4">🚨</div>
+                    <h3 class="font-bold text-slate-800 mb-2">Modo Emergência</h3>
+                    <p class="text-xs text-slate-500 leading-relaxed mb-4">Faltam 7 dias? Ativa o Plano Intensivo para focar apenas no que tem maior peso.</p>
+                    <button onclick="switchTab('emergencia')" class="text-xs font-bold text-rose-600 hover:underline">Ativar Emergência →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABA 1: IMPORTAR EDITAL -->
+        <div id="tab-import" class="tab-content">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-6">
+                    <div class="premium-card p-8 h-full">
+                        <h2 class="text-lg font-bold mb-4">Opção 1: Colar Edital / Resumo</h2>
+                        <p class="text-xs text-slate-500 mb-4">Cole abaixo o conteúdo programático. O sistema identificará cada linha como um tópico novo.</p>
+                        <div class="mb-4">
+                            <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Matéria Relacionada</label>
+                            <input type="text" id="import-subject-name" class="input-editable w-full" placeholder="Ex: Direito Administrativo">
+                        </div>
+                        <textarea id="edital-raw-text" class="input-editable w-full h-64 resize-none" placeholder="Cole aqui os tópicos do edital..."></textarea>
+                        <button onclick="processRawText()" class="w-full mt-4 bg-slate-800 text-white py-4 rounded-xl font-bold text-sm hover:bg-slate-900 transition">PROCESSAR E ADICIONAR TÓPICOS</button>
+                    </div>
+                </div>
+                <div class="lg:col-span-6">
+                    <div class="premium-card p-8">
+                        <h2 class="text-lg font-bold mb-4">Tópicos Identificados</h2>
+                        <div class="overflow-y-auto max-h-[500px] scroll-custom border border-slate-100 rounded-xl">
+                            <table class="w-full text-left">
+                                <thead class="bg-slate-50 sticky top-0">
+                                    <tr class="text-[10px] font-black text-slate-400 uppercase">
+                                        <th class="p-4">Matéria</th>
+                                        <th class="p-4">Tópico</th>
+                                        <th class="p-4 text-center">Peso</th>
+                                        <th class="p-4">Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="topic-list">
+                                    <tr id="empty-topics">
+                                        <td colspan="4" class="p-10 text-center text-slate-400 italic text-xs">Nenhum tópico importado ainda.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABA 2: CONFIGURAÇÃO -->
+        <div id="tab-config" class="tab-content">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-4">
+                    <div class="premium-card p-8">
+                        <h2 class="text-lg font-bold mb-6">📅 Definições de Tempo</h2>
+                        <div class="space-y-5">
+                            <div>
+                                <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Nome da Prova</label>
+                                <input type="text" id="exam-name" class="input-editable w-full" placeholder="Ex: Vestibular / OAB">
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Início</label>
+                                    <input type="date" id="start-date" class="input-editable w-full">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Data Prova</label>
+                                    <input type="date" id="exam-date" class="input-editable w-full">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Horas por Dia</label>
+                                <input type="number" id="daily-hours" class="input-editable w-full" value="4">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-8">
+                    <div class="premium-card p-8">
+                        <h2 class="text-lg font-bold mb-6">⚙️ Pesos das Disciplinas</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="text-[10px] font-black text-slate-400 uppercase border-b border-slate-50">
+                                        <th class="pb-4 text-left">Disciplina</th>
+                                        <th class="pb-4 px-2 text-center">Dificuldade</th>
+                                        <th class="pb-4 px-2 text-center">Importância Prova</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="subject-config-list"></tbody>
+                            </table>
+                        </div>
+                        <button onclick="generatePlan()" class="w-full mt-10 bg-indigo-600 text-white py-4 rounded-2xl font-black text-sm tracking-widest shadow-xl shadow-indigo-100 uppercase hover:bg-indigo-700 transition">GERAR CRONOGRAMA POR TÓPICOS</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABA 3: PRIORIDADE -->
+        <div id="tab-prioridade" class="tab-content">
+            <div class="premium-card p-8">
+                <div class="mb-8">
+                    <h2 class="text-2xl font-black text-slate-900">Ranking Estratégico</h2>
+                    <p class="text-sm text-slate-500">Tópicos organizados por peso e impacto na prova.</p>
+                </div>
+                <div id="priority-ranking" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+        </div>
+
+        <!-- ABA 4: CRONOGRAMA -->
+        <div id="tab-cronograma" class="tab-content">
+            <div class="premium-card p-8">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                    <div>
+                        <h2 class="text-xl font-bold">Plano de Execução Diária</h2>
+                        <p id="plan-type-label" class="text-xs text-slate-400 italic">Cronograma Padrão</p>
+                    </div>
+                    <div class="bg-indigo-50 px-6 py-3 rounded-2xl">
+                        <p class="text-[9px] font-black text-indigo-400 uppercase">Concluído</p>
+                        <div id="overall-progress-text" class="text-xl font-black text-indigo-600">0%</div>
+                    </div>
+                </div>
+                <div class="overflow-x-auto border rounded-2xl border-slate-100">
+                    <table class="w-full text-left">
+                        <thead class="bg-slate-50 border-b border-slate-100">
+                            <tr class="text-[10px] font-black text-slate-400 uppercase">
+                                <th class="p-5">Data / Ciclo</th>
+                                <th class="p-5">Disciplina</th>
+                                <th class="p-5">Tópico</th>
+                                <th class="p-5 text-center">Horas</th>
+                                <th class="p-5 text-center">Concluído</th>
+                            </tr>
+                        </thead>
+                        <tbody id="schedule-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABA 5: EMERGÊNCIA (7 DIAS) -->
+        <div id="tab-emergencia" class="tab-content">
+            <div class="premium-card p-12 text-center max-w-2xl mx-auto border-2 border-dashed border-rose-200 bg-rose-50/30">
+                <div class="text-5xl mb-6">🚨</div>
+                <h2 class="text-2xl font-black text-slate-900 mb-4">Plano Intensivo 7 Dias</h2>
+                <p class="text-slate-500 mb-10">Faltam poucos dias? O sistema vai focar apenas no **Top Impacto (80/20)** para garantir que estudes o que realmente pontua.</p>
+                <div class="flex flex-col gap-4">
+                    <button onclick="activateEmergency()" class="bg-rose-600 text-white py-5 rounded-2xl font-black shadow-xl shadow-rose-200 hover:bg-rose-700 transition uppercase text-sm tracking-widest">ATIVAR MODO EMERGÊNCIA</button>
+                    <button onclick="disableEmergency()" class="text-slate-400 text-xs font-bold hover:text-slate-600">Voltar ao Plano Normal</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABA 6: DASHBOARD -->
+        <div id="tab-dashboard" class="tab-content">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-8">
+                    <div class="premium-card p-8 h-full">
+                        <h2 class="text-lg font-black mb-8 border-b pb-4">Estatísticas do Edital</h2>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+                            <div class="text-center">
+                                <p class="text-[9px] font-black text-slate-400 uppercase">Tópicos</p>
+                                <h3 id="dash-total-topics" class="text-3xl font-black text-slate-800">0</h3>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-[9px] font-black text-slate-400 uppercase">Alta Peso</p>
+                                <h3 id="dash-high-topics" class="text-3xl font-black text-rose-500">0</h3>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-[9px] font-black text-slate-400 uppercase">Feito</p>
+                                <h3 id="dash-done-topics" class="text-3xl font-black text-emerald-500">0</h3>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-[9px] font-black text-slate-400 uppercase">Restante</p>
+                                <h3 id="dash-left-topics" class="text-3xl font-black text-indigo-600">0</h3>
+                            </div>
+                        </div>
+                        <div class="h-64"><canvas id="chart-consistency"></canvas></div>
+                    </div>
+                </div>
+                <div class="lg:col-span-4">
+                    <div class="premium-card p-8 flex flex-col items-center justify-center text-center">
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Status de Ritmo</p>
+                        <h2 id="risk-label" class="text-2xl font-black text-slate-900">ANALISANDO...</h2>
+                        <div class="w-full h-32 bg-slate-50 rounded-t-full mt-6 relative flex items-end justify-center overflow-hidden">
+                            <div id="risk-needle" class="w-1.5 h-32 bg-slate-800 absolute bottom-0 origin-bottom transform rotate-0 transition-transform duration-1000"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let topics = [];
+        let plan = [];
+        let isEmergency = false;
+        let charts = { consistency: null };
+
+        function init() {
+            const now = new Date();
+            const exam = new Date(); exam.setDate(now.getDate() + 30);
+            document.getElementById('start-date').value = now.toISOString().split('T')[0];
+            document.getElementById('exam-date').value = exam.toISOString().split('T')[0];
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.btn-nav').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            document.getElementById('btn-' + tabId).classList.add('active');
+            if (tabId === 'dashboard') updateDashboard();
+            if (tabId === 'prioridade') updatePriorityRanking();
+        }
+
+        function processRawText() {
+            const subject = document.getElementById('import-subject-name').value.trim();
+            const text = document.getElementById('edital-raw-text').value;
+            if (!subject || !text.trim()) return alert("Preenche a matéria e cola o texto!");
+            const lines = text.split('\n').filter(l => l.trim().length > 2);
+            lines.forEach(line => {
+                topics.push({
+                    id: Date.now() + Math.random(),
+                    subject: subject,
+                    name: line.trim(),
+                    priority: line.toLowerCase().includes("lei") || line.toLowerCase().includes("ato") ? "Alta" : "Média",
+                    done: false
+                });
+            });
+            document.getElementById('edital-raw-text').value = "";
+            renderTopics();
+            updateSubjectConfigs();
+        }
+
+        function renderTopics() {
+            const tbody = document.getElementById('topic-list');
+            if (document.getElementById('empty-topics')) document.getElementById('empty-topics').remove();
+            tbody.innerHTML = topics.length === 0 ? '<tr id="empty-topics"><td colspan="4" class="p-10 text-center text-slate-400 italic text-xs">Sem tópicos.</td></tr>' : "";
+            topics.forEach((t, i) => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-50 text-[11px]";
+                tr.innerHTML = `
+                    <td class="p-4 font-bold text-slate-500 uppercase">${t.subject}</td>
+                    <td class="p-4">${t.name}</td>
+                    <td class="p-4 text-center font-bold">${t.priority}</td>
+                    <td class="p-4 text-right"><button onclick="removeTopic(${i})" class="text-rose-300">🗑️</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function removeTopic(idx) { topics.splice(idx, 1); renderTopics(); updateSubjectConfigs(); }
+
+        function updateSubjectConfigs() {
+            const subs = [...new Set(topics.map(t => t.subject))];
+            const tbody = document.getElementById('subject-config-list');
+            tbody.innerHTML = "";
+            subs.forEach(s => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-50";
+                tr.innerHTML = `
+                    <td class="py-4 font-bold text-slate-700">${s}</td>
+                    <td class="py-4 px-2"><select class="input-editable w-full text-center"><option value="1">Fácil</option><option value="2" selected>Médio</option><option value="3">Difícil</option></select></td>
+                    <td class="py-4 px-2"><select class="input-editable w-full text-center"><option value="1">Baixa</option><option value="2" selected>Média</option><option value="3">Alta</option></select></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function generatePlan() {
+            const start = new Date(document.getElementById('start-date').value);
+            const exam = new Date(document.getElementById('exam-date').value);
+            const hours = parseFloat(document.getElementById('daily-hours').value);
+            if (topics.length === 0) return alert("Importa os tópicos primeiro!");
+            const totalDays = Math.floor((exam - start) / (1000 * 60 * 60 * 24)) - 1;
+            if (totalDays <= 0) return alert("Datas inválidas.");
+            
+            isEmergency = false;
+            document.getElementById('plan-type-label').innerText = "Cronograma Padrão";
+            document.getElementById('plan-type-label').className = "text-xs text-slate-400 italic";
+
+            const sorted = [...topics].sort((a,b) => (b.priority === 'Alta' ? 1 : 0) - (a.priority === 'Alta' ? 1 : 0));
+            plan = [];
+            let curr = new Date(start);
+            for(let i=0; i < totalDays; i++) {
+                const t = sorted[i % sorted.length];
+                plan.push({ id: i, date: new Date(curr), subject: t.subject, topic: t.name, hours: hours, completed: false });
+                curr.setDate(curr.getDate() + 1);
+            }
+            renderSchedule();
+            switchTab('cronograma');
+        }
+
+        function activateEmergency() {
+            if (topics.length === 0) return alert("Importa os tópicos primeiro!");
+            isEmergency = true;
+            document.getElementById('plan-type-label').innerText = "🚨 MODO EMERGÊNCIA ATIVADO";
+            document.getElementById('plan-type-label').className = "text-xs text-rose-600 font-black animate-pulse";
+            
+            const highPrio = topics.filter(t => t.priority === 'Alta');
+            const targetPool = highPrio.length > 0 ? highPrio : topics;
+            
+            const hours = parseFloat(document.getElementById('daily-hours').value) * 1.5;
+            const start = new Date();
+            plan = [];
+            for(let i=0; i < 7; i++) {
+                const t = targetPool[i % targetPool.length];
+                let d = new Date(start); d.setDate(d.getDate() + i);
+                plan.push({ id: i, date: d, subject: t.subject, topic: t.name, hours: hours, completed: false });
+            }
+            renderSchedule();
+            switchTab('cronograma');
+        }
+
+        function disableEmergency() { generatePlan(); }
+
+        function renderSchedule() {
+            const tbody = document.getElementById('schedule-body');
+            tbody.innerHTML = "";
+            plan.forEach(d => {
+                const tr = document.createElement('tr');
+                tr.className = `border-b border-slate-50 ${d.completed ? 'bg-emerald-50' : ''}`;
+                tr.innerHTML = `
+                    <td class="p-5 text-[10px] font-black text-slate-500 uppercase">${d.date.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit', weekday:'short'})}</td>
+                    <td class="p-5 font-bold text-[10px] text-slate-400 uppercase">${d.subject}</td>
+                    <td class="p-5 font-bold text-slate-800 text-xs">${d.topic}</td>
+                    <td class="p-5 text-center text-xs font-bold">${d.hours}h</td>
+                    <td class="p-5 text-center"><input type="checkbox" ${d.completed?'checked':''} onchange="updateDay(${d.id}, this.checked)" class="w-5 h-5 accent-emerald-500"></td>
+                `;
+                tbody.appendChild(tr);
+            });
+            const p = plan.length > 0 ? Math.round((plan.filter(d=>d.completed).length / plan.length) * 100) : 0;
+            document.getElementById('overall-progress-text').innerText = p + "%";
+        }
+
+        function updateDay(id, val) {
+            const d = plan.find(x => x.id === id);
+            if(d) d.completed = val;
+            renderSchedule();
+        }
+
+        function updatePriorityRanking() {
+            const container = document.getElementById('priority-ranking');
+            container.innerHTML = "";
+            const sorted = [...topics].sort((a,b) => (b.priority === 'Alta' ? 1 : 0) - (a.priority === 'Alta' ? 1 : 0)).slice(0, 9);
+            sorted.forEach(t => {
+                const div = document.createElement('div');
+                div.className = "premium-card p-6 border-l-8 " + (t.priority === 'Alta' ? 'border-rose-500' : 'border-amber-500');
+                div.innerHTML = `<p class="text-[9px] font-black text-slate-400 uppercase">${t.subject}</p><h4 class="font-bold text-slate-800 text-xs">${t.name}</h4>`;
+                container.appendChild(div);
+            });
+        }
+
+        function updateDashboard() {
+            document.getElementById('dash-total-topics').innerText = topics.length;
+            document.getElementById('dash-high-topics').innerText = topics.filter(t=>t.priority==='Alta').length;
+            document.getElementById('dash-done-topics').innerText = plan.filter(d=>d.completed).length;
+            document.getElementById('dash-left-topics').innerText = Math.max(0, topics.length - plan.filter(d=>d.completed).length);
+
+            const ratio = plan.length > 0 ? plan.filter(d=>d.completed).length / plan.length : 0;
+            const rl = document.getElementById('risk-label');
+            const needle = document.getElementById('risk-needle');
+            let angle = Math.min(90, Math.max(-90, 90 - (ratio * 180)));
+            rl.innerText = ratio < 0.4 ? "RISCO ALTO" : (ratio < 0.7 ? "ATENÇÃO" : "NO RITMO");
+            rl.style.color = ratio < 0.4 ? "#ef4444" : (ratio < 0.7 ? "#f59e0b" : "#10b981");
+            needle.style.transform = `rotate(${angle}deg)`;
+            renderCharts();
+        }
+
+        function renderCharts() {
+            const ctx = document.getElementById('chart-consistency').getContext('2d');
+            if(charts.consistency) charts.consistency.destroy();
+            charts.consistency = new Chart(ctx, { type: 'bar', data: { labels: plan.slice(0, 7).map(d => d.date.toLocaleDateString('pt-BR', {day:'2-digit'})), datasets: [{ label: 'Concluído', data: plan.slice(0, 7).map(d => d.completed ? 1 : 0), backgroundColor: '#6366f1' }] }, options: { maintainAspectRatio: false, scales: { y: { display: false } } } });
+        }
+
+        init();
+    </script>
+</body>
+</html>
